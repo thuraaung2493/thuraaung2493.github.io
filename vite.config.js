@@ -1,2 +1,4 @@
 /** @type {import('vite').UserConfig} */
-export default {};
+export default {
+  base: '/thuraaung2493.github.io/',
+};

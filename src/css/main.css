@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.typed-cursor {
+  font-size: 72px;
+  color: #38bdf8;
+  font-weight: 400;
+}

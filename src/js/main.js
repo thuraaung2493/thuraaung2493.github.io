@@ -1,4 +1,19 @@
+import AOS from 'aos';
+import Typed from 'typed.js';
 import '../css/main.css';
+
+AOS.init();
+
+new Typed('.typing-text', {
+  strings: [
+    'Thura Aung <span class="text-sky-400">@ Htet Minn Khant</span>',
+    'I am a <span class="text-sky-400">Full Stack Developer</span>',
+  ],
+  typeSpeed: 30,
+  loop: true,
+  backDelay: 900,
+  backSpeed: 30,
+});
 
 const sections = document.querySelectorAll('section');
 window.onscroll = () => {

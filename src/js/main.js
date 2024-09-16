@@ -35,6 +35,9 @@ links.forEach(function (link) {
   link.addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelector(link.hash).scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('nav-links').classList.add('hidden');
+    document.getElementById('menu-icon').classList.remove('hidden');
+    document.getElementById('cross-icon').classList.add('hidden');
   });
 });
 

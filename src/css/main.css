@@ -3,7 +3,17 @@
 @tailwind utilities;
 
 .typed-cursor {
+  display: none;
   font-size: 72px;
   color: #38bdf8;
   font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .typed-cursor {
+    display: inline-block;
+    font-size: 72px;
+    color: #38bdf8;
+    font-weight: 400;
+  }
 }

@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-zinc-950 text-zinc-400 antialiased selection:bg-sky-500/30 selection:text-sky-200;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Neon Ray Background Animation */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 30%),
+    radial-gradient(circle at 20% 80%, rgba(2, 132, 199, 0.04) 0%, transparent 35%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.neon-rays {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.4;
+}
+
+.ray {
+  position: absolute;
+  background: linear-gradient(to top, transparent, rgba(14, 165, 233, 0.15), transparent);
+  width: 2px;
+  height: 150vh;
+  top: -25vh;
+  transform-origin: center;
+  filter: blur(4px);
+  animation: sweep 15s infinite linear;
+}
+
+.ray:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+.ray:nth-child(2) { left: 30%; animation-delay: -4s; animation-duration: 18s; }
+.ray:nth-child(3) { left: 50%; animation-delay: -8s; animation-duration: 15s; }
+.ray:nth-child(4) { left: 70%; animation-delay: -2s; animation-duration: 20s; }
+.ray:nth-child(5) { left: 90%; animation-delay: -6s; animation-duration: 14s; }
+
+@keyframes sweep {
+  0% { transform: rotate(-15deg) translateY(-10%); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: rotate(15deg) translateY(10%); opacity: 0; }
+}

@@ -2,7 +2,8 @@
 
 ### This site was built using the following stacks -
 
-- HTML, CSS & JS
+- React & Tailwind CSS
+- [React (Frontend)](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Vite (Build Tool)](https://vitejs.dev/)
 - [GitHub Actions](https://github.com/features/actions)

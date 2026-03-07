@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --color-laravel: #ff2d20;
 }
 
 html {
@@ -11,59 +14,61 @@ html {
 }
 
 body {
-  @apply bg-zinc-950 text-zinc-400 antialiased selection:bg-sky-500/30 selection:text-sky-200;
+  @apply bg-white text-zinc-600 dark:bg-[#0a0a0a] dark:text-zinc-400 antialiased selection:bg-laravel/20 selection:text-laravel dark:selection:bg-laravel/30 dark:selection:text-laravel;
   position: relative;
   overflow-x: hidden;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
-/* Neon Ray Background Animation */
+/* Laravel-inspired subtle grid background */
 body::before {
   content: '';
   position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 30%),
-    radial-gradient(circle at 20% 80%, rgba(2, 132, 199, 0.04) 0%, transparent 35%);
-  z-index: -2;
-  pointer-events: none;
-}
-
-.neon-rays {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  overflow: hidden;
-  opacity: 0.4;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
 }
 
-.ray {
-  position: absolute;
-  background: linear-gradient(to top, transparent, rgba(14, 165, 233, 0.15), transparent);
-  width: 2px;
-  height: 150vh;
-  top: -25vh;
-  transform-origin: center;
-  filter: blur(4px);
-  animation: sweep 15s infinite linear;
+.dark body::before {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-.ray:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
-.ray:nth-child(2) { left: 30%; animation-delay: -4s; animation-duration: 18s; }
-.ray:nth-child(3) { left: 50%; animation-delay: -8s; animation-duration: 15s; }
-.ray:nth-child(4) { left: 70%; animation-delay: -2s; animation-duration: 20s; }
-.ray:nth-child(5) { left: 90%; animation-delay: -6s; animation-duration: 14s; }
-
-@keyframes sweep {
-  0% { transform: rotate(-15deg) translateY(-10%); opacity: 0; }
-  20% { opacity: 0.8; }
-  80% { opacity: 0.8; }
-  100% { transform: rotate(15deg) translateY(10%); opacity: 0; }
+/* Radial glow for dark mode */
+.dark body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 60vh;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255, 45, 32, 0.12),
+    transparent 70%
+  );
+  z-index: -2;
+  pointer-events: none;
 }

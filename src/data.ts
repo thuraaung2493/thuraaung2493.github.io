@@ -76,6 +76,40 @@ export const education = [
   }
 ];
 
+export const certificates = [
+  {
+    title: 'AWS Certified Cloud Practitioner',
+    issuer: 'Amazon Web Services (AWS)',
+    date: 'View Credential',
+    url: 'https://www.credly.com/badges/18f9a23f-7bbb-4bde-9137-4afb972bc829/public_url'
+  },
+  {
+    title: 'Prompt Design in Vertex AI Skill Badge',
+    issuer: 'Google Cloud',
+    date: 'View Credential',
+    url: 'https://www.credly.com/badges/98f9cb07-02fd-40c6-9580-d204bb557a93/public_url'
+  }
+];
+
+export const projects = [
+  {
+    name: 'mm-nrc-converter',
+    description:
+      'An npm package to convert Myanmar National Registration Card (NRC) formats between English and Myanmar languages. Features automatic detection and number conversion.',
+    url: 'https://www.npmjs.com/package/mm-nrc-converter',
+    github: 'https://github.com/thuraaung2493/mm-nrc-converter',
+    tags: ['JavaScript', 'TypeScript', 'npm', 'Open Source']
+  },
+  {
+    name: 'ts-expressor',
+    description:
+      'A TypeScript-based framework/utility for Express.js that provides a structured way to create applications with Controller classes, Repository patterns, and Validation schemas.',
+    url: 'https://www.npmjs.com/package/ts-expressor',
+    github: 'https://github.com/thuraaung2493/ts-expressor',
+    tags: ['TypeScript', 'Express.js', 'Node.js', 'npm', 'Open Source']
+  }
+];
+
 export const skills = [
   'PHP',
   'Node.js',

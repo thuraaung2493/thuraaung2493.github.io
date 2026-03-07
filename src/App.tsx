@@ -11,7 +11,7 @@ import {
   Package,
   Phone,
   Sun,
-  Twitter
+  X
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
@@ -223,8 +223,8 @@ export default function App() {
                   rel="noreferrer"
                   className="block text-zinc-500 hover:text-laravel transition-colors dark:text-zinc-400 dark:hover:text-laravel"
                 >
-                  <span className="sr-only">Twitter</span>
-                  <Twitter className="h-6 w-6" />
+                  <span className="sr-only">X</span>
+                  <X className="h-6 w-6" />
                 </a>
               </li>
               <li>

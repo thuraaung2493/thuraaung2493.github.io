@@ -55,20 +55,68 @@ body::before {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-/* Radial glow for dark mode */
+/* Vercel-inspired top ray */
 .dark body::after {
   content: '';
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 60vh;
-  background: radial-gradient(
-    ellipse at top,
-    rgba(255, 45, 32, 0.12),
-    transparent 70%
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: conic-gradient(
+    from 180deg at 50% -20%,
+    transparent 120deg,
+    rgba(255, 255, 255, 0.08) 180deg,
+    transparent 240deg
   );
   z-index: -2;
   pointer-events: none;
+  filter: blur(60px);
+  animation: pulseRay 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseRay {
+  0% {
+    opacity: 0.5;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1.1);
+  }
+}
+
+/* Animated subtle spot moving through the grid (Vercel style) */
+.grid-spot {
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(40px);
+  animation: moveSpot 25s ease-in-out infinite alternate;
+}
+
+@keyframes moveSpot {
+  0% {
+    transform: translate(0vw, 0vh);
+  }
+  33% {
+    transform: translate(80vw, 30vh);
+  }
+  66% {
+    transform: translate(20vw, 80vh);
+  }
+  100% {
+    transform: translate(90vw, 100vh);
+  }
 }

@@ -82,11 +82,44 @@ export const GridAnimation = () => {
       ],
       delay: 2.5,
       duration: 5
+    },
+    // Mobile friendly paths (smaller X coordinates)
+    {
+      id: 7,
+      points: [
+        [2, 0],
+        [2, 5],
+        [4, 5],
+        [4, 12]
+      ],
+      delay: 0.8,
+      duration: 4.5
+    },
+    {
+      id: 8,
+      points: [
+        [5, 0],
+        [5, 2],
+        [1, 2],
+        [1, 8]
+      ],
+      delay: 1.2,
+      duration: 3.8
+    },
+    {
+      id: 9,
+      points: [
+        [0, 2],
+        [3, 2],
+        [3, 6]
+      ],
+      delay: 2.2,
+      duration: 3.2
     }
   ];
 
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden hidden md:block opacity-20 dark:opacity-30">
+    <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden opacity-20 dark:opacity-30">
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">

@@ -19,7 +19,7 @@ export const experience = [
   {
     role: 'Senior Full-stack Developer',
     company: 'Hana Microfinance Limited',
-    period: '2023 NOV - Present',
+    period: '2025 NOV - Present',
     description: [
       'Develop and maintain the Dashboard PHP project using the Laravel framework and MySQL database, including API, Web interface and Admin dashboard.',
       'Develop and maintain the Field App React project, used by field staff.'
@@ -28,7 +28,7 @@ export const experience = [
   {
     role: 'Full-stack Developer',
     company: 'Solinx Co., Ltd',
-    period: '2022 MAY - 2023 SEP',
+    period: '2022 MAY - 2025 SEP',
     description: [
       'Developed and maintained FoodMM, JDJR, and Movie Links PHP projects using Laravel and MySQL for the backend, and React with Ant Design for the frontend, including APIs, web interfaces, and admin dashboards.',
       'Worked on the You & ME project using Node.js, which was still under development at the time of departure.'

@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import { GridAnimation } from './components/GridAnimation';
 import {
   certificates,
   education,
@@ -99,7 +98,6 @@ export default function App() {
 
   return (
     <>
-      <GridAnimation />
 
       {/* Theme Toggle Button */}
       <button

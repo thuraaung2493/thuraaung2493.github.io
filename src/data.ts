@@ -3,7 +3,7 @@ export const personalInfo = {
   alias: 'Htet Minn Khant',
   title: 'Full Stack Developer',
   avatar: '/profile.jpg',
-  location: 'Thung Khru · Bangkok',
+  location: 'Bangkok, Thailand',
   phone: '(+66) 92-856-0419',
   email: 'thuraaung2493@gmail.com',
   bio: 'I am a Full Stack Developer skilled in front-end and back-end technologies, including PHP, Laravel, Node.js, and React. I have developed and maintained projects like APIs, web applications, and admin dashboards, with expertise in payment integration (2C2P, KBZ Pay), API development, and MySQL management. I focus on delivering high-quality, scalable solutions while continuously improving my technical skills.',

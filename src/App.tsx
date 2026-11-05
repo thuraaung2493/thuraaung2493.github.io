@@ -13,8 +13,7 @@ import {
   Sun,
   X
 } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   certificates,
   education,
@@ -25,531 +24,344 @@ import {
   workflow
 } from './data';
 
+const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'certificates', label: 'Certificates' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' }
+];
+
+const socialLinks = [
+  { label: 'GitHub', href: personalInfo.socials.github, Icon: Github },
+  { label: 'LinkedIn', href: personalInfo.socials.linkedin, Icon: Linkedin },
+  { label: 'X', href: personalInfo.socials.twitter, Icon: X }
+];
+
+function SectionHeading({ id, title, description }: {
+  id: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <header className="section-heading">
+      <h2 id={id}>{title}</h2>
+      {description && <p>{description}</p>}
+    </header>
+  );
+}
+
 export default function App() {
+  const headerRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState('about');
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (prefersDark) {
-      setTheme('dark');
-    } else {
-      setTheme('light');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.style.colorScheme = theme;
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      // Theme switching also works when browser storage is unavailable.
     }
-  }, []);
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = [
-        'about',
-        'experience',
-        'education',
-        'certificates',
-        'projects',
-        'skills'
-      ];
-      const scrollPosition = window.scrollY + 100;
-
-      // If we've scrolled to the bottom of the page, activate the last section
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 50
-      ) {
-        setActiveSection('skills');
-        return;
-      }
-
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const headerHeight = Math.ceil(
+        headerRef.current?.getBoundingClientRect().height ?? 0
+      );
+      document.documentElement.style.setProperty(
+        '--header-height', `${headerHeight}px`
+      );
+      let current = sections[0].id;
       for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(section);
-          }
+        const element = document.getElementById(section.id);
+        if (element && element.getBoundingClientRect().top <= headerHeight + 24) {
+          current = section.id;
         }
       }
+      if (
+        window.scrollY > 0 &&
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50
+      ) {
+        current = sections[sections.length - 1].id;
+      }
+      setActiveSection(current);
     };
+    const handleScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
+    };
+    const observer = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(handleScroll);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    updateActiveSection();
+    if (headerRef.current) observer?.observe(headerRef.current);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      observer?.disconnect();
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   return (
-    <>
+    <div id="top" className="studio-portfolio">
+      <a href="#main-content" className="skip-link">Skip to content</a>
 
-      {/* Theme Toggle Button */}
-      <button
-        onClick={toggleTheme}
-        className="fixed top-6 right-6 z-50 rounded-full bg-zinc-100 p-3 text-zinc-800 shadow-lg border border-zinc-200 transition-colors hover:bg-zinc-200 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-        aria-label="Toggle Theme"
-      >
-        {theme === 'dark' ? (
-          <Sun className="h-5 w-5" />
-        ) : (
-          <Moon className="h-5 w-5" />
-        )}
-      </button>
-
-      <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 font-sans md:px-12 md:py-20 lg:px-24 lg:py-0">
-        <div className="lg:flex lg:justify-between lg:gap-4">
-          {/* Left Sidebar */}
-          <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:py-24">
-            <div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="mb-6"
-              >
-                <img
-                  src={personalInfo.avatar}
-                  alt={personalInfo.name}
-                  className="h-32 w-32 rounded-full border-2 border-zinc-200 object-cover shadow-xl dark:border-zinc-800"
-                  referrerPolicy="no-referrer"
-                />
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="font-display text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl"
-              >
-                {personalInfo.name}
-              </motion.h1>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="mt-3 text-lg font-medium tracking-tight text-zinc-800 dark:text-zinc-200 sm:text-xl"
-              >
-                {personalInfo.title}
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="mt-4 max-w-xs leading-normal text-zinc-600 dark:text-zinc-400"
-              >
-                Building scalable, high-quality web applications and APIs.
-              </motion.p>
-
-              <motion.nav
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="nav hidden lg:block mt-16"
-              >
-                <ul className="w-max">
-                  {[
-                    'about',
-                    'experience',
-                    'education',
-                    'certificates',
-                    'projects',
-                    'skills'
-                  ].map((item) => (
-                    <li key={item}>
-                      <a
-                        href={`#${item}`}
-                        className={`group flex items-center py-3 ${activeSection === item ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-500 dark:hover:text-zinc-200'}`}
-                      >
-                        <span
-                          className={`mr-4 h-px transition-all duration-300 ${activeSection === item ? 'w-16 bg-laravel' : 'w-8 bg-zinc-300 group-hover:w-16 group-hover:bg-zinc-600 dark:bg-zinc-700 dark:group-hover:bg-zinc-400'}`}
-                        ></span>
-                        <span
-                          className={`text-xs font-bold uppercase tracking-widest ${activeSection === item ? 'text-laravel' : ''}`}
-                        >
-                          {item}
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </motion.nav>
-            </div>
-
-            <motion.ul
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-8 flex items-center gap-5 lg:mt-0"
-            >
-              <li>
-                <a
-                  href={personalInfo.socials.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block text-zinc-500 hover:text-laravel transition-colors dark:text-zinc-400 dark:hover:text-laravel"
-                >
-                  <span className="sr-only">GitHub</span>
-                  <Github className="h-6 w-6" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={personalInfo.socials.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block text-zinc-500 hover:text-laravel transition-colors dark:text-zinc-400 dark:hover:text-laravel"
-                >
-                  <span className="sr-only">LinkedIn</span>
-                  <Linkedin className="h-6 w-6" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={personalInfo.socials.twitter}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block text-zinc-500 hover:text-laravel transition-colors dark:text-zinc-400 dark:hover:text-laravel"
-                >
-                  <span className="sr-only">X</span>
-                  <X className="h-6 w-6" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={personalInfo.socials.cv}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-800 transition-colors hover:border-laravel hover:text-laravel dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-laravel dark:hover:text-laravel"
-                >
-                  <FileText className="h-4 w-4" />
-                  <span>Resume</span>
-                </a>
-              </li>
-            </motion.ul>
-          </header>
-
-          {/* Right Content */}
-          <main className="pt-24 lg:w-1/2 lg:py-24">
-            <section
-              id="about"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  About
-                </h2>
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-zinc-600 space-y-4 dark:text-zinc-400"
-              >
-                <p>{personalInfo.bio}</p>
-
-                <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 text-sm">
-                  <div className="flex items-center gap-3">
-                    <MapPin className="h-4 w-4 text-laravel" />
-                    <span>{personalInfo.location}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-4 w-4 text-laravel" />
-                    <a
-                      href={`mailto:${personalInfo.email}`}
-                      className="hover:text-laravel transition-colors"
-                    >
-                      {personalInfo.email}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-4 w-4 text-laravel" />
-                    <span>{personalInfo.phone}</span>
-                  </div>
-                </div>
-              </motion.div>
-            </section>
-
-            <section
-              id="experience"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  Experience
-                </h2>
-              </div>
-              <div className="group/list">
-                {experience.map((exp, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="mb-12 group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
+      <header ref={headerRef} className="site-header">
+        <div className="site-header-inner page-width">
+          <a href="#top" className="site-brand">{personalInfo.name}</a>
+          <nav className="site-nav" aria-label="Portfolio sections">
+            <ul>
+              {sections.map(({ id, label }) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    aria-current={activeSection === id ? 'location' : undefined}
                   >
-                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-zinc-100/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-zinc-800/30"></div>
-                    <header
-                      className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2"
-                      aria-label={exp.period}
-                    >
-                      {exp.period}
-                    </header>
-                    <div className="z-10 sm:col-span-6">
-                      <h3 className="font-medium leading-snug text-zinc-900 dark:text-zinc-200">
-                        <div>
-                          <span className="inline-flex items-center gap-1 font-display text-base group-hover:text-laravel transition-colors">
-                            {exp.role}
-                          </span>
-                        </div>
-                        <div
-                          className="text-zinc-500 mt-1 dark:text-zinc-400"
-                          aria-hidden="true"
-                        >
-                          {exp.company}
-                        </div>
-                      </h3>
-                      <div className="mt-2 text-sm leading-normal text-zinc-600 space-y-2 dark:text-zinc-400">
-                        {exp.description.map((desc, i) => (
-                          <p key={i}>{desc}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            <section
-              id="education"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  Education
-                </h2>
-              </div>
-              <div className="group/list">
-                {education.map((edu, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="mb-12 group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
-                  >
-                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-zinc-100/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-zinc-800/30"></div>
-                    <header
-                      className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2"
-                      aria-label={edu.period}
-                    >
-                      {edu.period}
-                    </header>
-                    <div className="z-10 sm:col-span-6">
-                      <h3 className="font-medium leading-snug text-zinc-900 font-display text-base dark:text-zinc-200 group-hover:text-laravel transition-colors">
-                        {edu.degree}
-                      </h3>
-                      <div className="text-zinc-500 mt-1 text-sm dark:text-zinc-400">
-                        {edu.school}
-                      </div>
-                      {edu.description && (
-                        <p className="mt-2 text-sm leading-normal text-zinc-600 dark:text-zinc-400">
-                          {edu.description}
-                        </p>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            <section
-              id="certificates"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  Certificates
-                </h2>
-              </div>
-              <div className="group/list">
-                {certificates.map((cert, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="mb-12 group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
-                  >
-                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-zinc-100/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-zinc-800/30"></div>
-                    <header
-                      className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2"
-                      aria-label={cert.date}
-                    >
-                      {cert.date}
-                    </header>
-                    <div className="z-10 sm:col-span-6">
-                      <h3 className="font-medium leading-snug text-zinc-900 font-display text-base dark:text-zinc-200">
-                        <a
-                          href={cert.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 hover:text-laravel transition-colors focus-visible:text-laravel"
-                        >
-                          <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                          <span>{cert.title}</span>
-                          <ExternalLink className="h-4 w-4 ml-1 inline-block" />
-                        </a>
-                      </h3>
-                      <div className="text-zinc-500 mt-1 text-sm dark:text-zinc-400 flex items-center gap-2">
-                        <Award className="h-4 w-4 text-laravel" />
-                        {cert.issuer}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            <section
-              id="projects"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  Open Source Projects
-                </h2>
-              </div>
-              <div className="group/list">
-                {projects.map((project, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="mb-12 group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
-                  >
-                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-zinc-100/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-zinc-800/30"></div>
-                    <header
-                      className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2"
-                      aria-label="NPM Package"
-                    >
-                      <div className="flex items-center gap-1">
-                        <Package className="h-4 w-4" />
-                        <span>NPM</span>
-                      </div>
-                    </header>
-                    <div className="z-10 sm:col-span-6">
-                      <h3 className="font-medium leading-snug text-zinc-900 font-display text-base dark:text-zinc-200">
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 hover:text-laravel transition-colors focus-visible:text-laravel"
-                        >
-                          <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                          <span>{project.name}</span>
-                          <ExternalLink className="h-4 w-4 ml-1 inline-block" />
-                        </a>
-                      </h3>
-                      <p className="mt-2 text-sm leading-normal text-zinc-600 dark:text-zinc-400">
-                        {project.description}
-                      </p>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="relative mt-3 inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-laravel dark:text-zinc-400 dark:hover:text-laravel transition-colors"
-                      >
-                        <Github className="h-4 w-4" />
-                        <span>View Source</span>
-                      </a>
-                      <ul className="mt-4 flex flex-wrap gap-2">
-                        {project.tags.map((tag, i) => (
-                          <li key={i}>
-                            <div className="flex items-center rounded-full bg-laravel/10 px-3 py-1 text-xs font-medium leading-5 text-laravel border border-laravel/20">
-                              {tag}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            <section
-              id="skills"
-              className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
-            >
-              <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-white/90 px-6 py-5 backdrop-blur dark:bg-[#0a0a0a]/90 md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
-                  Skills & Workflow
-                </h2>
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-sm font-semibold text-zinc-900 mb-4 uppercase tracking-wider dark:text-zinc-200">
-                  Technologies
-                </h3>
-                <ul className="flex flex-wrap gap-2 mb-10">
-                  {skills.map((skill, index) => (
-                    <li key={index}>
-                      <div className="flex items-center rounded-full bg-laravel/10 px-3 py-1 text-xs font-medium leading-5 text-laravel border border-laravel/20">
-                        {skill}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                <h3 className="text-sm font-semibold text-zinc-900 mb-4 uppercase tracking-wider dark:text-zinc-200">
-                  Workflow
-                </h3>
-                <ul className="space-y-3">
-                  {workflow.map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400"
-                    >
-                      <ChevronRight className="h-4 w-4 text-laravel flex-shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </section>
-
-            <footer className="max-w-md pb-16 text-sm text-zinc-500 sm:pb-0">
-              <p>
-                Designed and engineered by Thura Aung. Powered by React and
-                Tailwind CSS, and generated by Google AI Studio.
-              </p>
-            </footer>
-          </main>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <button
+            type="button"
+            onClick={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}
+            className="theme-toggle"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark'
+              ? <Sun aria-hidden="true" size={19} />
+              : <Moon aria-hidden="true" size={19} />}
+          </button>
         </div>
-      </div>
-    </>
+      </header>
+
+      <main id="main-content" tabIndex={-1} className="page-width">
+        <section id="about" aria-labelledby="about-heading" className="about-section">
+          <div className="hero">
+            <div className="hero-portrait">
+              <img
+                src={personalInfo.avatar}
+                alt={personalInfo.name}
+                width="96"
+                height="96"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <p className="hero-role">{personalInfo.title}</p>
+            <h1>{personalInfo.name}</h1>
+            <p className="hero-headline">{personalInfo.headline}</p>
+            <p className="hero-opportunities">{personalInfo.opportunities}</p>
+            <div className="hero-actions">
+              <a href="#projects" className="button button-primary">
+                View projects <ChevronRight aria-hidden="true" size={17} />
+              </a>
+              <a
+                href={personalInfo.socials.cv}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="View resume (opens in a new tab)"
+                className="button button-secondary"
+              >
+                <FileText aria-hidden="true" size={16} /> Resume
+              </a>
+              <a href="#contact" className="text-link">Get in touch</a>
+            </div>
+            <ul className="social-links" aria-label="Social links">
+              {socialLinks.map(({ label, href, Icon }) => (
+                <li key={label}>
+                  <a href={href} target="_blank" rel="noreferrer">
+                    <span className="sr-only">{label}</span>
+                    <Icon aria-hidden="true" size={20} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="about-layout">
+            <div>
+              <SectionHeading id="about-heading" title="About" />
+              <p className="about-bio">{personalInfo.bio}</p>
+            </div>
+            <ul className="contact-details" aria-label="Contact details">
+              <li><MapPin aria-hidden="true" size={18} /><span>{personalInfo.location}</span></li>
+              <li>
+                <Mail aria-hidden="true" size={18} />
+                <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
+              </li>
+              <li>
+                <Phone aria-hidden="true" size={18} />
+                <a href={`tel:${personalInfo.phone.replace(/[^\d+]/g, '')}`}>
+                  {personalInfo.phone}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-heading" className="portfolio-section">
+          <SectionHeading
+            id="projects-heading"
+            title="Featured Projects"
+            description="Open-source packages and tools for Laravel business rules, schema-driven forms, Myanmar data, and TypeScript APIs."
+          />
+          <div className="project-grid">
+            {projects.map(project => (
+              <article key={project.id} aria-labelledby={`${project.id}-title`} className="project-card soft-surface">
+                <p className="project-category"><Package aria-hidden="true" size={15} />{project.category}</p>
+                <h3 id={`${project.id}-title`}>{project.name}</h3>
+                <p className="project-description">{project.description}</p>
+                <div className="project-detail">
+                  <h4>The problem</h4>
+                  <p>{project.problem}</p>
+                </div>
+                <div className="project-detail">
+                  <h4>What it does</h4>
+                  <ul className="description-list">
+                    {project.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}
+                  </ul>
+                </div>
+                <details className="project-example">
+                  <summary>{project.exampleLabel}</summary>
+                  <pre><code>{project.example}</code></pre>
+                </details>
+                <ul className="tag-list" aria-label="Technologies">
+                  {project.tags.map(tag => <li key={tag}>{tag}</li>)}
+                </ul>
+                <div className="project-links">
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${project.linkLabel} for ${project.name} (opens in a new tab)`}
+                    className="text-link"
+                  >
+                    {project.linkLabel}<ExternalLink aria-hidden="true" size={15} />
+                  </a>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`View ${project.name} source (opens in a new tab)`}
+                    className="text-link secondary-link"
+                  >
+                    <Github aria-hidden="true" size={16} />View source
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="experience" aria-labelledby="experience-heading" className="portfolio-section">
+          <SectionHeading id="experience-heading" title="Experience" />
+          <ol className="experience-list">
+            {experience.map(exp => (
+              <li key={exp.company} className="experience-item">
+                <p className="entry-period">{exp.period}</p>
+                <div className="experience-content">
+                  <h3>{exp.role}</h3>
+                  <p className="entry-organization">{exp.company}</p>
+                  <ul className="description-list">
+                    {exp.description.map(description => <li key={description}>{description}</li>)}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="skills" aria-labelledby="skills-heading" className="portfolio-section">
+          <SectionHeading id="skills-heading" title="Skills & Workflow" />
+          <div className="skills-layout">
+            <div>
+              <h3 className="subsection-title">Technologies</h3>
+              <ul className="tag-list skills-tags">
+                {skills.map(skill => <li key={skill}>{skill}</li>)}
+              </ul>
+            </div>
+            <div>
+              <h3 className="subsection-title">Workflow</h3>
+              <ul className="workflow-list">
+                {workflow.map(item => (
+                  <li key={item}><ChevronRight aria-hidden="true" size={17} /><span>{item}</span></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="certificates" aria-labelledby="certificates-heading" className="portfolio-section">
+          <SectionHeading id="certificates-heading" title="Certificates" />
+          <ul className="credential-grid">
+            {certificates.map(cert => (
+              <li key={cert.title}>
+                <a href={cert.url} target="_blank" rel="noreferrer" className="credential-card soft-surface">
+                  <Award aria-hidden="true" size={25} className="credential-icon" />
+                  <div>
+                    <h3>{cert.title}</h3>
+                    <p>{cert.issuer}</p>
+                    <span className="credential-action">{cert.date}<ExternalLink aria-hidden="true" size={15} /></span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="education" aria-labelledby="education-heading" className="portfolio-section">
+          <SectionHeading id="education-heading" title="Education" />
+          <div className="education-grid">
+            {education.map(edu => (
+              <article key={`${edu.school}-${edu.degree}`} className="education-entry">
+                <p className="entry-period">{edu.period}</p>
+                <h3>{edu.degree}</h3>
+                <p className="entry-organization">{edu.school}</p>
+                {edu.description && <p className="education-description">{edu.description}</p>}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-heading" className="contact-section soft-surface">
+          <h2 id="contact-heading">Let's connect</h2>
+          <p>{personalInfo.contactIntro}</p>
+          <div className="contact-actions">
+            <a href={`mailto:${personalInfo.email}`} className="button button-primary">
+              <Mail aria-hidden="true" size={17} />Email me
+            </a>
+            <a
+              href={personalInfo.socials.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Connect on LinkedIn (opens in a new tab)"
+              className="button button-secondary"
+            >
+              <Linkedin aria-hidden="true" size={17} />LinkedIn
+            </a>
+          </div>
+        </section>
+
+        <footer className="site-footer">
+          <p>
+            Designed and engineered by Thura Aung. Powered by React and
+            Tailwind CSS, and generated by Google AI Studio.
+          </p>
+        </footer>
+      </main>
+    </div>
   );
 }

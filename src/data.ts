@@ -2,11 +2,16 @@ export const personalInfo = {
   name: 'Thura Aung',
   alias: 'Htet Minn Khant',
   title: 'Full Stack Developer',
+  headline:
+    'Building financial applications, payment integrations, and developer tools with Laravel, Node.js, and React.',
+  opportunities: 'Open to full-time roles and freelance projects.',
+  contactIntro:
+    'I’m interested in full-time full-stack roles and freelance projects involving web applications, APIs, or payment integrations. Tell me about your team or what you’re building.',
   avatar: '/profile.jpg',
   location: 'Bangkok, Thailand',
   phone: '(+66) 92-856-0419',
   email: 'thuraaung2493@gmail.com',
-  bio: 'I am a Full Stack Developer skilled in front-end and back-end technologies, including PHP, Laravel, Node.js, and React. I have developed and maintained projects like APIs, web applications, and admin dashboards, with expertise in payment integration (2C2P, KBZ Pay), API development, and MySQL management. I focus on delivering high-quality, scalable solutions while continuously improving my technical skills.',
+  bio: 'I build web applications and APIs for financial services, with hands-on experience in offline field workflows and payment integrations. My work spans Laravel and MySQL backends, React interfaces, and Node.js services. I also create open-source tools for Laravel business rules, schema-driven forms, Myanmar data conversion, and TypeScript API scaffolding.',
   socials: {
     linkedin: 'https://www.linkedin.com/in/thura-aung-018a5a183/',
     github: 'https://github.com/thuraaung2493',
@@ -19,38 +24,40 @@ export const experience = [
   {
     role: 'Senior Full-stack Developer',
     company: 'Hana Microfinance Limited',
-    period: '2023 NOV - Present',
+    period: 'Nov 2023 – Present',
     description: [
-      'Develop and maintain the Dashboard PHP project using the Laravel framework and MySQL database, including API, Web interface and Admin dashboard.',
-      'Develop and maintain the Field App React project, used by field staff.'
+      'Restructured the field app’s download process from a single API into multiple focused Laravel endpoints to prepare interview data before field visits.',
+      'Develop and maintain a React field app that lets field officers download interview data, conduct interviews offline, and upload completed interviews as compressed JSON when connected.',
+      'Maintain the Laravel and MySQL backend, web interfaces, and admin dashboard that support field operations.'
     ]
   },
   {
     role: 'Full-stack Developer',
     company: 'Solinx Co., Ltd',
-    period: '2022 MAY - 2023 SEP',
+    period: 'May 2022 – Sep 2023',
     description: [
-      'Developed and maintained FoodMM, JDJR, and Movie Links PHP projects using Laravel and MySQL for the backend, and React with Ant Design for the frontend, including APIs, web interfaces, and admin dashboards.',
-      'Worked on the You & ME project using Node.js, which was still under development at the time of departure.'
+      'Developed APIs and admin dashboards for FoodMM, JDJR, and Movie Links using Laravel and MySQL.',
+      'Built React interfaces with Ant Design for these startup projects, including CRUD workflows.',
+      'Contributed to the Node.js-based You & ME project during development.'
     ]
   },
   {
     role: 'Senior Web Developer',
     company: 'Mother Finance Co., Ltd',
-    period: '2019 MAY - 2021 FEB',
+    period: 'May 2019 – Feb 2021',
     description: [
-      'Developed and maintained the Mother Finance PHP project, including API, web interface, and admin dashboard.',
-      'Developed the Collection App and other in-house projects using Node.js and React.',
-      'Implemented payment integrations with KBZ Pay, MPT Pay, and 2C2P.'
+      'Took over a vendor-developed PHP finance platform and maintained its APIs, web interface, and admin dashboard.',
+      'Integrated KBZ Pay, MPT Pay, and 2C2P payment services into the finance platform.',
+      'Developed the Collection App and other internal tools using Node.js and React.'
     ]
   },
   {
     role: 'Junior Web Developer',
     company: 'Bagan Innovation Technology',
-    period: '2018 MAY - 2019 MAY',
+    period: 'May 2018 – May 2019',
     description: [
-      'Developed and maintained ShweSuBoo PHP project using Laravel and MySQL for the backend, and Vuejs for the frontend, including APIs, web interface, and admin dashboard.',
-      'Developed and maintained the Bagan OCR Node.js project using Google OCR API.'
+      'Independently developed Bagan OCR using Node.js, the Google OCR API, and queues to process OCR work.',
+      'Developed and maintained ShweSuBoo APIs, web interfaces, and admin features using Laravel, MySQL, and Vue.js.'
     ]
   }
 ];
@@ -93,18 +100,105 @@ export const certificates = [
 
 export const projects = [
   {
-    name: 'mm-nrc-converter',
+    id: 'laravel-rulecraft',
+    name: 'Laravel Rulecraft',
+    category: 'Laravel package',
     description:
-      'An npm package to convert Myanmar National Registration Card (NRC) formats between English and Myanmar languages. Features automatic detection and number conversion.',
-    url: 'https://www.npmjs.com/package/mm-nrc-converter',
-    github: 'https://github.com/thuraaung2493/mm-nrc-converter',
-    tags: ['JavaScript', 'TypeScript', 'npm', 'Open Source']
+      'A Laravel package for database-backed business rules, nested policy groups, and conditional role permissions, with an embeddable visual rule builder.',
+    problem:
+      'Business conditions and permission checks can become scattered across controllers and services. Rulecraft brings them into reusable policies evaluated against application data.',
+    highlights: [
+      'Combine database-backed rules with nested ALL/ANY groups and Symfony expressions.',
+      'Evaluate policies separately from explicitly running registered actions.',
+      'Add conditional role permissions through optional Spatie Laravel Permission integration and Blade directives.',
+      'Edit rules visually, preview decisions, and transfer policies with versioned JSON import/export.'
+    ],
+    exampleLabel: 'Create and evaluate a business rule',
+    example: `use Thuraaung\\Rulecraft\\Facades\\Rulecraft;
+use Thuraaung\\Rulecraft\\Models\\RuleGroup;
+
+$group = RuleGroup::create([
+    'name' => 'order-discount',
+    'match' => 'all',
+]);
+$group->rules()->create([
+    'name' => 'minimum-total',
+    'expression' => 'order_total >= 100',
+]);
+
+$result = Rulecraft::group('order-discount')
+    ->evaluate(['order_total' => 150]);
+
+$result->passed(); // true`,
+    url: 'https://github.com/thuraaung2493/laravel-rulecraft#readme',
+    linkLabel: 'Read documentation',
+    github: 'https://github.com/thuraaung2493/laravel-rulecraft',
+    tags: ['PHP', 'Laravel', 'Symfony', 'Blade', 'Open Source']
   },
   {
-    name: 'ts-expressor',
+    id: 'dynamix-forms',
+    name: 'Dynamix Forms',
+    category: 'Form platform',
     description:
-      'A TypeScript-based framework/utility for Express.js that provides a structured way to create applications with Controller classes, Repository patterns, and Validation schemas.',
+      'A JSON-driven form platform with a framework-independent engine, reusable React packages, and a visual builder backed by an Express API and PostgreSQL.',
+    problem:
+      'Forms with changing requirements often duplicate field logic, validation, and UI code. A shared JSON schema keeps the form engine, renderer, and builder working from one definition.',
+    highlights: [
+      'Define 14 field types with nested conditional fields, calculations, and validation.',
+      'Render schemas in React with reusable hooks and native, Bootstrap, or shadcn/ui adapters.',
+      'Create forms visually, preview their behavior, and import or export JSON schemas.',
+      'Manage private forms with authenticated access, draft saves, and immutable published versions.'
+    ],
+    exampleLabel: 'Install the beta React packages',
+    example: `npm install @thuraaung2493/dynamic-form-core@beta
+npm install @thuraaung2493/dynamic-form-react@beta`,
+    url: 'https://github.com/thuraaung2493/dynamix-forms#readme',
+    linkLabel: 'Read documentation',
+    github: 'https://github.com/thuraaung2493/dynamix-forms',
+    tags: ['TypeScript', 'React', 'Express', 'PostgreSQL', 'npm', 'Open Source']
+  },
+  {
+    id: 'mm-nrc-converter',
+    name: 'mm-nrc-converter',
+    category: 'JavaScript package',
+    description:
+      'A reusable npm package for converting Myanmar National Registration Card (NRC) formats and numerals between English and Myanmar.',
+    problem:
+      'Applications accepting NRC details need to work with both English and Myanmar formats, including different numeral systems.',
+    highlights: [
+      'Convert NRC formats in both directions between English and Myanmar.',
+      'Detect the input format and select the conversion automatically.',
+      'Use numeral conversion helpers independently of NRC conversion.'
+    ],
+    exampleLabel: 'Convert Myanmar numerals',
+    example: `const converter = require('mm-nrc-converter');
+
+converter.converNumbers('၁၂၃', 'mm', 'eng');
+// Returns '123'`,
+    url: 'https://www.npmjs.com/package/mm-nrc-converter',
+    linkLabel: 'View on npm',
+    github: 'https://github.com/thuraaung2493/mm-nrc-converter',
+    tags: ['JavaScript', 'npm', 'Open Source']
+  },
+  {
+    id: 'ts-expressor',
+    name: 'ts-expressor',
+    category: 'Developer CLI',
+    description:
+      'A CLI for generating TypeScript Express applications and the controllers, repositories, and validation schemas used to build APIs.',
+    problem:
+      'Starting an API often means repeating project setup and creating the same application structure before feature development can begin.',
+    highlights: [
+      'Scaffold a TypeScript Express application with a single command.',
+      'Generate controller and repository classes for API features.',
+      'Create validation schemas with dedicated file-generation commands.'
+    ],
+    exampleLabel: 'Scaffold an API and a controller',
+    example: `npx ts-expressor new my-api
+cd my-api
+npx ts-expressor make:controller user`,
     url: 'https://www.npmjs.com/package/ts-expressor',
+    linkLabel: 'View on npm',
     github: 'https://github.com/thuraaung2493/ts-expressor',
     tags: ['TypeScript', 'Express.js', 'Node.js', 'npm', 'Open Source']
   }

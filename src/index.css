@@ -217,6 +217,8 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 24px); }
 .experience-content h3 { font-size: 19px; font-weight: 500; line-height: 1.4; letter-spacing: -.3px; }
 .entry-organization { margin-top: 6px; color: var(--studio-muted); font-size: 14px; }
 .experience-content .description-list { margin-top: 17px; font-size: 15px; }
+.background-subsection + .background-subsection { margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--studio-line); }
+.background-heading { margin-bottom: 22px; font-size: 20px; font-weight: 500; line-height: 1.4; letter-spacing: -.4px; }
 .skills-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; }
 .subsection-title { font-size: 15px; font-weight: 600; }
 .skills-tags { margin-top: 17px; }
@@ -229,13 +231,13 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 24px); }
 .credential-grid li { min-width: 0; }
 .credential-card { display: flex; align-items: flex-start; gap: 18px; height: 100%; padding: 26px; }
 .credential-icon { color: var(--studio-accent); margin-top: 3px; }
-.credential-card h3 { font-size: 17px; line-height: 1.5; font-weight: 500; }
+.credential-card h4 { font-size: 17px; line-height: 1.5; font-weight: 500; }
 .credential-card p { margin-top: 7px; color: var(--studio-muted); font-size: 13px; }
 .credential-action { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 12px; color: var(--studio-accent); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
-.credential-card:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+.credential-card:hover h4 { text-decoration: underline; text-underline-offset: 4px; }
 .education-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
 .education-entry { padding-left: 20px; border-left: 1px solid var(--studio-line); }
-.education-entry h3 { margin-top: 13px; font-size: 17px; line-height: 1.55; font-weight: 500; }
+.education-entry h4 { margin-top: 13px; font-size: 17px; line-height: 1.55; font-weight: 500; }
 .education-description { margin-top: 12px; color: var(--studio-muted); font-size: 13px; line-height: 1.8; }
 .contact-section { max-width: 850px; margin: 36px auto 64px; padding: 46px; text-align: center; }
 .contact-section > p { max-width: 650px; margin: 17px auto 0; color: var(--studio-muted); font-size: 15px; line-height: 1.8; }

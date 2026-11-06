@@ -28,9 +28,7 @@ const sections = [
   { id: 'about', label: 'About' },
   { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'certificates', label: 'Certificates' },
-  { id: 'education', label: 'Education' },
+  { id: 'background', label: 'Background' },
   { id: 'contact', label: 'Contact' }
 ];
 
@@ -83,7 +81,8 @@ export default function App() {
       let current = sections[0].id;
       for (const section of sections) {
         const element = document.getElementById(section.id);
-        if (element && element.getBoundingClientRect().top <= headerHeight + 24) {
+        // Anchor scrolling rounds to device pixels; section bounds can remain fractional.
+        if (element && element.getBoundingClientRect().top <= headerHeight + 24 + 1) {
           current = section.id;
         }
       }
@@ -284,56 +283,60 @@ export default function App() {
           </ol>
         </section>
 
-        <section id="skills" aria-labelledby="skills-heading" className="portfolio-section">
-          <SectionHeading id="skills-heading" title="Skills & Workflow" />
-          <div className="skills-layout">
-            <div>
-              <h3 className="subsection-title">Technologies</h3>
-              <ul className="tag-list skills-tags">
-                {skills.map(skill => <li key={skill}>{skill}</li>)}
-              </ul>
-            </div>
-            <div>
-              <h3 className="subsection-title">Workflow</h3>
-              <ul className="workflow-list">
-                {workflow.map(item => (
-                  <li key={item}><ChevronRight aria-hidden="true" size={17} /><span>{item}</span></li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+        <section id="background" aria-labelledby="background-heading" className="portfolio-section">
+          <SectionHeading id="background-heading" title="Background" />
 
-        <section id="certificates" aria-labelledby="certificates-heading" className="portfolio-section">
-          <SectionHeading id="certificates-heading" title="Certificates" />
-          <ul className="credential-grid">
-            {certificates.map(cert => (
-              <li key={cert.title}>
-                <a href={cert.url} target="_blank" rel="noreferrer" className="credential-card soft-surface">
-                  <Award aria-hidden="true" size={25} className="credential-icon" />
-                  <div>
-                    <h3>{cert.title}</h3>
-                    <p>{cert.issuer}</p>
-                    <span className="credential-action">{cert.date}<ExternalLink aria-hidden="true" size={15} /></span>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+          <section id="skills" aria-labelledby="skills-heading" className="background-subsection">
+            <h3 id="skills-heading" className="background-heading">Skills & Workflow</h3>
+            <div className="skills-layout">
+              <div>
+                <h4 className="subsection-title">Technologies</h4>
+                <ul className="tag-list skills-tags">
+                  {skills.map(skill => <li key={skill}>{skill}</li>)}
+                </ul>
+              </div>
+              <div>
+                <h4 className="subsection-title">Workflow</h4>
+                <ul className="workflow-list">
+                  {workflow.map(item => (
+                    <li key={item}><ChevronRight aria-hidden="true" size={17} /><span>{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
 
-        <section id="education" aria-labelledby="education-heading" className="portfolio-section">
-          <SectionHeading id="education-heading" title="Education" />
-          <div className="education-grid">
-            {education.map(edu => (
-              <article key={`${edu.school}-${edu.degree}`} className="education-entry">
-                <p className="entry-period">{edu.period}</p>
-                <h3>{edu.degree}</h3>
-                <p className="entry-organization">{edu.school}</p>
-                {edu.description && <p className="education-description">{edu.description}</p>}
-              </article>
-            ))}
-          </div>
+          <section id="certificates" aria-labelledby="certificates-heading" className="background-subsection">
+            <h3 id="certificates-heading" className="background-heading">Certificates</h3>
+            <ul className="credential-grid">
+              {certificates.map(cert => (
+                <li key={cert.title}>
+                  <a href={cert.url} target="_blank" rel="noreferrer" className="credential-card soft-surface">
+                    <Award aria-hidden="true" size={25} className="credential-icon" />
+                    <div>
+                      <h4>{cert.title}</h4>
+                      <p>{cert.issuer}</p>
+                      <span className="credential-action">{cert.date}<ExternalLink aria-hidden="true" size={15} /></span>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section id="education" aria-labelledby="education-heading" className="background-subsection">
+            <h3 id="education-heading" className="background-heading">Education</h3>
+            <div className="education-grid">
+              {education.map(edu => (
+                <article key={`${edu.school}-${edu.degree}`} className="education-entry">
+                  <p className="entry-period">{edu.period}</p>
+                  <h4>{edu.degree}</h4>
+                  <p className="entry-organization">{edu.school}</p>
+                  {edu.description && <p className="education-description">{edu.description}</p>}
+                </article>
+              ))}
+            </div>
+          </section>
         </section>
 
         <section id="contact" aria-labelledby="contact-heading" className="contact-section soft-surface">

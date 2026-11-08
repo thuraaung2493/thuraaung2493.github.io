@@ -183,11 +183,12 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
       'Use numeral conversion helpers independently of NRC conversion.'
     ],
     exampleLabel: 'Convert Myanmar numerals',
-    example: `const converter = require('mm-nrc-converter');
+    example: `const converter = require('@thuraaung2493/mm-nrc-converter');
 
-converter.converNumbers('၁၂၃', 'mm', 'eng');
-// Returns '123'`,
-    url: 'https://www.npmjs.com/package/mm-nrc-converter',
+converter.toEnglish('၁၂/လမန(နိုင်)၀၀၁၂၃၄'); // "12/LaMaNa(N)001234"
+converter.toMyanmar('12/LaMaNa(N)001234'); // "၁၂/လမန(နိုင်)၀၀၁၂၃၄"
+converter.isValid('12/LaMaNa(N)001234'); // true`,
+    url: 'https://www.npmjs.com/package/@thuraaung2493/mm-nrc-converter',
     registry: 'npm',
     github: 'https://github.com/thuraaung2493/mm-nrc-converter',
     tags: ['JavaScript', 'npm', 'Open Source']
@@ -210,10 +211,10 @@ converter.converNumbers('၁၂၃', 'mm', 'eng');
       'Create validation schemas with dedicated file-generation commands.'
     ],
     exampleLabel: 'Scaffold an API and a controller',
-    example: `npx ts-expressor new my-api
+    example: `npx @thuraaung2493/ts-expressor new my-api
 cd my-api
-npx ts-expressor make:controller user`,
-    url: 'https://www.npmjs.com/package/ts-expressor',
+npx @thuraaung2493/ts-expressor make:controller user`,
+    url: 'https://www.npmjs.com/package/@thuraaung2493/ts-expressor',
     registry: 'npm',
     github: 'https://github.com/thuraaung2493/ts-expressor',
     tags: ['TypeScript', 'Express.js', 'Node.js', 'npm', 'Open Source']

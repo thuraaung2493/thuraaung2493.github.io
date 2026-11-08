@@ -254,10 +254,11 @@ export default function App() {
                     href={project.url}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`${project.linkLabel} for ${project.name} (opens in a new tab)`}
-                    className="text-link"
+                    aria-label={`View ${project.name} on ${project.registry} (opens in a new tab)`}
+                    className="text-link secondary-link"
                   >
-                    {project.linkLabel}<ExternalLink aria-hidden="true" size={15} />
+                    <span aria-hidden="true" className="registry-logo" data-registry={project.registry} />
+                    {project.registry}
                   </a>
                   <a
                     href={project.github}

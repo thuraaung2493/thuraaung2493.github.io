@@ -16,7 +16,7 @@ export const personalInfo = {
     linkedin: 'https://www.linkedin.com/in/thura-aung-018a5a183/',
     github: 'https://github.com/thuraaung2493',
     twitter: 'https://twitter.com/Thura_Aung2493',
-    cv: 'https://thura-cv.s3.ap-southeast-1.amazonaws.com/ThuraAung(Full-stack+Web+Developer).pdf'
+    cv: 'https://thura-cv.s3.ap-southeast-1.amazonaws.com/Thura_Aung_CV.pdf'
   }
 };
 
@@ -135,7 +135,7 @@ $result = Rulecraft::group('order-discount')
 
 $result->passed(); // true`,
     url: 'https://packagist.org/packages/thuraaung2493/laravel-rulecraft',
-    linkLabel: 'View on Packagist',
+    registry: 'Packagist',
     github: 'https://github.com/thuraaung2493/laravel-rulecraft',
     tags: ['PHP', 'Laravel', 'Symfony', 'Blade', 'Open Source']
   },
@@ -161,7 +161,7 @@ $result->passed(); // true`,
     example: `npm install @thuraaung2493/dynamic-form-core@beta
 npm install @thuraaung2493/dynamic-form-react@beta`,
     url: 'https://www.npmjs.com/package/@thuraaung2493/dynamic-form-react',
-    linkLabel: 'View on npm',
+    registry: 'npm',
     github: 'https://github.com/thuraaung2493/dynamix-forms',
     tags: ['TypeScript', 'React', 'Express', 'PostgreSQL', 'npm', 'Open Source']
   },
@@ -188,7 +188,7 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
 converter.converNumbers('၁၂၃', 'mm', 'eng');
 // Returns '123'`,
     url: 'https://www.npmjs.com/package/mm-nrc-converter',
-    linkLabel: 'View on npm',
+    registry: 'npm',
     github: 'https://github.com/thuraaung2493/mm-nrc-converter',
     tags: ['JavaScript', 'npm', 'Open Source']
   },
@@ -214,7 +214,7 @@ converter.converNumbers('၁၂၃', 'mm', 'eng');
 cd my-api
 npx ts-expressor make:controller user`,
     url: 'https://www.npmjs.com/package/ts-expressor',
-    linkLabel: 'View on npm',
+    registry: 'npm',
     github: 'https://github.com/thuraaung2493/ts-expressor',
     tags: ['TypeScript', 'Express.js', 'Node.js', 'npm', 'Open Source']
   }

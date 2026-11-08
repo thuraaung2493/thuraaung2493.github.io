@@ -134,8 +134,8 @@ $result = Rulecraft::group('order-discount')
     ->evaluate(['order_total' => 150]);
 
 $result->passed(); // true`,
-    url: 'https://github.com/thuraaung2493/laravel-rulecraft#readme',
-    linkLabel: 'Read documentation',
+    url: 'https://packagist.org/packages/thuraaung2493/laravel-rulecraft',
+    linkLabel: 'View on Packagist',
     github: 'https://github.com/thuraaung2493/laravel-rulecraft',
     tags: ['PHP', 'Laravel', 'Symfony', 'Blade', 'Open Source']
   },
@@ -160,8 +160,8 @@ $result->passed(); // true`,
     exampleLabel: 'Install the beta React packages',
     example: `npm install @thuraaung2493/dynamic-form-core@beta
 npm install @thuraaung2493/dynamic-form-react@beta`,
-    url: 'https://github.com/thuraaung2493/dynamix-forms#readme',
-    linkLabel: 'Read documentation',
+    url: 'https://www.npmjs.com/package/@thuraaung2493/dynamic-form-react',
+    linkLabel: 'View on npm',
     github: 'https://github.com/thuraaung2493/dynamix-forms',
     tags: ['TypeScript', 'React', 'Express', 'PostgreSQL', 'npm', 'Open Source']
   },

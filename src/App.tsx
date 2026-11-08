@@ -220,6 +220,15 @@ export default function App() {
           <div className="project-grid">
             {projects.map(project => (
               <article key={project.id} aria-labelledby={`${project.id}-title`} className="project-card soft-surface">
+                <img
+                  src={project.image.src}
+                  alt={project.image.alt}
+                  width="1774"
+                  height="887"
+                  loading="lazy"
+                  decoding="async"
+                  className="project-preview"
+                />
                 <p className="project-category"><Package aria-hidden="true" size={15} />{project.category}</p>
                 <h3 id={`${project.id}-title`}>{project.name}</h3>
                 <p className="project-description">{project.description}</p>

@@ -102,6 +102,10 @@ export const projects = [
   {
     id: 'laravel-rulecraft',
     name: 'Laravel Rulecraft',
+    image: {
+      src: '/projects/laravel-rulecraft.jpg',
+      alt: 'Laravel Rulecraft banner with its branching R logo.'
+    },
     category: 'Laravel package',
     description:
       'A Laravel package for database-backed business rules, nested policy groups, and conditional role permissions, with an embeddable visual rule builder.',
@@ -138,6 +142,10 @@ $result->passed(); // true`,
   {
     id: 'dynamix-forms',
     name: 'Dynamix Forms',
+    image: {
+      src: '/projects/dynamix-forms.jpg',
+      alt: 'Dynamix Forms banner with its branching-field logo.'
+    },
     category: 'Form platform',
     description:
       'A JSON-driven form platform with a framework-independent engine, reusable React packages, and a visual builder backed by an Express API and PostgreSQL.',
@@ -160,6 +168,10 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
   {
     id: 'mm-nrc-converter',
     name: 'mm-nrc-converter',
+    image: {
+      src: '/projects/mm-nrc-converter.jpg',
+      alt: 'mm-nrc-converter banner with its ID-card conversion logo.'
+    },
     category: 'JavaScript package',
     description:
       'A reusable npm package for converting Myanmar National Registration Card (NRC) formats and numerals between English and Myanmar.',
@@ -183,6 +195,10 @@ converter.converNumbers('၁၂၃', 'mm', 'eng');
   {
     id: 'ts-expressor',
     name: 'ts-expressor',
+    image: {
+      src: '/projects/ts-expressor.jpg',
+      alt: 'ts-expressor banner with its code-bracket and forward-arrow logo.'
+    },
     category: 'Developer CLI',
     description:
       'A CLI for generating TypeScript Express applications and the controllers, repositories, and validation schemas used to build APIs.',

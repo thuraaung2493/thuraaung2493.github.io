@@ -170,42 +170,61 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
     name: 'NRC Kit',
     image: {
       src: '/projects/nrc-kit-social-preview.png',
-      alt: 'NRC Kit banner with its identity-card and code-bracket package logo.'
+      alt: 'NRC Kit banner with an NRC card and code brackets.'
     },
-    category: 'TypeScript & Laravel packages',
+    category: 'TypeScript package',
     description:
-      'An offline Myanmar NRC toolkit for TypeScript and Laravel, with bilingual parsing, validation, conversion, and native form integrations.',
+      'An offline Myanmar NRC toolkit for bilingual parsing, validation, and conversion, with optional React selectors and Zod schemas.',
     problem:
-      'Applications need consistent English and Myanmar NRC handling across browser and server forms while preserving leading zeroes.',
+      'Browser and server applications need consistent English and Myanmar NRC handling while preserving leading zeroes.',
     highlights: [
       'Parse, validate, and convert bilingual NRC numbers with localized state, township, and type lookups.',
-      'Use optional React selectors and Zod schemas in TypeScript applications.',
-      'Add Laravel validation rules and a native Blade selector without a frontend framework.',
-      'Extend isolated TypeScript instances or publish and edit the full Laravel NRC dataset.'
+      'Use the framework-independent core in browsers and Node.js.',
+      'Add React selectors and Zod schemas through optional integrations.',
+      'Extend NRC data in isolated instances without changing shared defaults.'
     ],
-    exampleLabel: 'Install for TypeScript or Laravel',
-    example: `npm install @thuraaung2493/nrc-kit
-composer require thuraaung2493/laravel-nrc-kit`,
+    exampleLabel: 'Parse and convert an NRC number',
+    example: `import { parse, toEnglish, isValid } from '@thuraaung2493/nrc-kit';
+
+parse('12/LaMaNa(N)001234', 'mm');
+toEnglish('၁၂/လမန(နိုင်)၀၀၁၂၃၄'); // '12/LaMaNa(N)001234'
+isValid('12/LaMaNa(N)001234'); // true`,
     url: 'https://www.npmjs.com/package/@thuraaung2493/nrc-kit',
     registry: 'npm',
     github: 'https://github.com/thuraaung2493/nrc-kit',
-    packages: [
-      {
-        name: 'NRC Kit',
-        url: 'https://www.npmjs.com/package/@thuraaung2493/nrc-kit',
-        registry: 'npm',
-        github: 'https://github.com/thuraaung2493/nrc-kit',
-        sourceLabel: 'TypeScript source'
-      },
-      {
-        name: 'Laravel NRC Kit',
-        url: 'https://packagist.org/packages/thuraaung2493/laravel-nrc-kit',
-        registry: 'Packagist',
-        github: 'https://github.com/thuraaung2493/laravel-nrc-kit',
-        sourceLabel: 'Laravel source'
-      }
+    tags: ['TypeScript', 'React', 'Zod', 'npm', 'Open Source']
+  },
+  {
+    id: 'laravel-nrc-kit',
+    name: 'Laravel NRC Kit',
+    image: {
+      src: '/projects/laravel-nrc-kit-social-preview.png',
+      alt: 'Laravel NRC Kit banner with an NRC card and code brackets.'
+    },
+    category: 'Laravel package',
+    description:
+      'A Laravel package for bilingual Myanmar NRC parsing, validation, and conversion, with a native Blade selector and configurable NRC data.',
+    problem:
+      'Laravel forms need reusable NRC validation and localized input without duplicating parsing logic across controllers and views.',
+    highlights: [
+      'Parse, validate, and convert English and Myanmar NRC numbers.',
+      'Validate form requests with a reusable Laravel validation rule.',
+      'Render a native Blade selector without a frontend framework.',
+      'Publish and edit the complete NRC dataset through Laravel configuration.'
     ],
-    tags: ['TypeScript', 'React', 'Zod', 'PHP', 'Laravel', 'Blade', 'Open Source']
+    exampleLabel: 'Validate NRC input in Laravel',
+    example: `use Thuraaung\\NrcKit\\Nrc;
+use Thuraaung\\NrcKit\\Rules\\ValidNrc;
+
+Nrc::from('၁၂/လမန(နိုင်)၀၀၁၂၃၄')->toEnglish();
+
+$request->validate([
+    'nrc' => ['required', new ValidNrc()],
+]);`,
+    url: 'https://packagist.org/packages/thuraaung2493/laravel-nrc-kit',
+    registry: 'Packagist',
+    github: 'https://github.com/thuraaung2493/laravel-nrc-kit',
+    tags: ['PHP', 'Laravel', 'Blade', 'Composer', 'Open Source']
   },
   {
     id: 'ts-expressor',

@@ -220,6 +220,7 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 24px); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .tag-list li { padding: 4px 9px; border: 1px solid var(--studio-line); border-radius: 6px; color: var(--studio-muted); font-size: 12px; line-height: 1.65; }
 .project-links { display: flex; flex-wrap: wrap; gap: 0 22px; margin-top: auto; padding-top: 20px; }
+.project-package-links { display: flex; flex-wrap: wrap; gap: 0 22px; }
 
 .experience-list { max-width: 960px; }
 .experience-item { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 36px; padding: 26px 0 30px; }

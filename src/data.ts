@@ -11,7 +11,7 @@ export const personalInfo = {
   location: 'Bangkok, Thailand',
   phone: '(+66) 92-856-0419',
   email: 'thuraaung2493@gmail.com',
-  bio: 'I build web applications and APIs for financial services, with hands-on experience in offline field workflows and payment integrations. My work spans Laravel and MySQL backends, React interfaces, and Node.js services. I also create open-source tools for Laravel business rules, schema-driven forms, Myanmar data conversion, and TypeScript API scaffolding.',
+  bio: 'I build web applications and APIs for financial services, with hands-on experience in offline field workflows and payment integrations. My work spans Laravel and MySQL backends, React interfaces, and Node.js services. I also create open-source tools for Laravel business rules, schema-driven forms, bilingual Myanmar NRC processing, and TypeScript API scaffolding.',
   socials: {
     linkedin: 'https://www.linkedin.com/in/thura-aung-018a5a183/',
     github: 'https://github.com/thuraaung2493',
@@ -166,32 +166,46 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
     tags: ['TypeScript', 'React', 'Express', 'PostgreSQL', 'npm', 'Open Source']
   },
   {
-    id: 'mm-nrc-converter',
-    name: 'mm-nrc-converter',
+    id: 'nrc-kit',
+    name: 'NRC Kit',
     image: {
-      src: '/projects/mm-nrc-converter.jpg',
-      alt: 'mm-nrc-converter banner with its ID-card conversion logo.'
+      src: '/projects/nrc-kit-social-preview.png',
+      alt: 'NRC Kit banner with its N and identity-card package logo.'
     },
-    category: 'JavaScript package',
+    category: 'TypeScript & Laravel packages',
     description:
-      'A reusable npm package for converting Myanmar National Registration Card (NRC) formats and numerals between English and Myanmar.',
+      'An offline Myanmar NRC toolkit for TypeScript and Laravel, with bilingual parsing, validation, conversion, and native form integrations.',
     problem:
-      'Applications accepting NRC details need to work with both English and Myanmar formats, including different numeral systems.',
+      'Applications need consistent English and Myanmar NRC handling across browser and server forms while preserving leading zeroes.',
     highlights: [
-      'Convert NRC formats in both directions between English and Myanmar.',
-      'Detect the input format and select the conversion automatically.',
-      'Use numeral conversion helpers independently of NRC conversion.'
+      'Parse, validate, and convert bilingual NRC numbers with localized state, township, and type lookups.',
+      'Use optional React selectors and Zod schemas in TypeScript applications.',
+      'Add Laravel validation rules and a native Blade selector without a frontend framework.',
+      'Extend isolated TypeScript instances or publish and edit the full Laravel NRC dataset.'
     ],
-    exampleLabel: 'Convert Myanmar numerals',
-    example: `const converter = require('@thuraaung2493/mm-nrc-converter');
-
-converter.toEnglish('၁၂/လမန(နိုင်)၀၀၁၂၃၄'); // "12/LaMaNa(N)001234"
-converter.toMyanmar('12/LaMaNa(N)001234'); // "၁၂/လမန(နိုင်)၀၀၁၂၃၄"
-converter.isValid('12/LaMaNa(N)001234'); // true`,
-    url: 'https://www.npmjs.com/package/@thuraaung2493/mm-nrc-converter',
+    exampleLabel: 'Install for TypeScript or Laravel',
+    example: `npm install @thuraaung2493/nrc-kit
+composer require thuraaung2493/laravel-nrc-kit`,
+    url: 'https://www.npmjs.com/package/@thuraaung2493/nrc-kit',
     registry: 'npm',
-    github: 'https://github.com/thuraaung2493/mm-nrc-converter',
-    tags: ['JavaScript', 'npm', 'Open Source']
+    github: 'https://github.com/thuraaung2493/nrc-kit',
+    packages: [
+      {
+        name: 'NRC Kit',
+        url: 'https://www.npmjs.com/package/@thuraaung2493/nrc-kit',
+        registry: 'npm',
+        github: 'https://github.com/thuraaung2493/nrc-kit',
+        sourceLabel: 'TypeScript source'
+      },
+      {
+        name: 'Laravel NRC Kit',
+        url: 'https://packagist.org/packages/thuraaung2493/laravel-nrc-kit',
+        registry: 'Packagist',
+        github: 'https://github.com/thuraaung2493/laravel-nrc-kit',
+        sourceLabel: 'Laravel source'
+      }
+    ],
+    tags: ['TypeScript', 'React', 'Zod', 'PHP', 'Laravel', 'Blade', 'Open Source']
   },
   {
     id: 'ts-expressor',

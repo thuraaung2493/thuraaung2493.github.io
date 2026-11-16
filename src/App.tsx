@@ -250,35 +250,25 @@ export default function App() {
                   {project.tags.map(tag => <li key={tag}>{tag}</li>)}
                 </ul>
                 <div className="project-links">
-                  {(project.packages ?? [{
-                    name: project.name,
-                    url: project.url,
-                    registry: project.registry,
-                    github: project.github,
-                    sourceLabel: 'View source'
-                  }]).map(packageLink => (
-                    <div key={packageLink.github} className="project-package-links">
-                      <a
-                        href={packageLink.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`View ${packageLink.name} on ${packageLink.registry} (opens in a new tab)`}
-                        className="text-link secondary-link"
-                      >
-                        <span aria-hidden="true" className="registry-logo" data-registry={packageLink.registry} />
-                        {packageLink.registry}
-                      </a>
-                      <a
-                        href={packageLink.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`View ${packageLink.name} source (opens in a new tab)`}
-                        className="text-link secondary-link"
-                      >
-                        <Github aria-hidden="true" size={16} />{packageLink.sourceLabel}
-                      </a>
-                    </div>
-                  ))}
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`View ${project.name} on ${project.registry} (opens in a new tab)`}
+                    className="text-link secondary-link"
+                  >
+                    <span aria-hidden="true" className="registry-logo" data-registry={project.registry} />
+                    {project.registry}
+                  </a>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`View ${project.name} source (opens in a new tab)`}
+                    className="text-link secondary-link"
+                  >
+                    <Github aria-hidden="true" size={16} />View source
+                  </a>
                 </div>
               </article>
             ))}

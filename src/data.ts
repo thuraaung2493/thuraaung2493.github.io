@@ -170,7 +170,7 @@ npm install @thuraaung2493/dynamic-form-react@beta`,
     name: 'NRC Kit',
     image: {
       src: '/projects/nrc-kit-social-preview.png',
-      alt: 'NRC Kit banner with its N and identity-card package logo.'
+      alt: 'NRC Kit banner with its identity-card and code-bracket package logo.'
     },
     category: 'TypeScript & Laravel packages',
     description:
